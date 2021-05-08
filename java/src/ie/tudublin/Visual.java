@@ -3,10 +3,13 @@ package ie.tudublin;
 import processing.core.PApplet;
 import ddf.minim.*;
 import ddf.minim.analysis.FFT;
+import ddf.minim.AudioPlayer;
+import ddf.minim.AudioInput;
+import ddf.minim.AudioBuffer;
 
 public abstract class Visual extends PApplet
 {
-	private int frameSize = 512;
+	private int frameSize = 1024;
 	private int sampleRate = 44100;
 
 	private float[] bands;
@@ -15,12 +18,14 @@ public abstract class Visual extends PApplet
 	private Minim minim;
 	private AudioInput ai;
 	private AudioPlayer ap;
-	private AudioBuffer ab;
+	public static AudioBuffer ab;
 	private FFT fft;
 
 	private float amplitude  = 0;
 	private float smothedAmplitude = 0;
 
+	public static float[] lerpedBuffer;
+	public static float lerpedAverage = 0;
 	
 	
 	public void startMinim() 
@@ -82,11 +87,12 @@ public abstract class Visual extends PApplet
 	public void startListening()
 	{
 		ai = minim.getLineIn(Minim.MONO, frameSize, 44100, 16);
-		ab = ai.left;
+		ab = ap.mix;
 	}
 
 	public void loadAudio(String filename)
 	{
+		keyPressed();
 		ap = minim.loadFile(filename, frameSize);
 		ab = ap.mix;
 	}

@@ -27,7 +27,7 @@ public class MyVisual extends Visual
 
         
         // Call this instead to read audio from the microphone
-        startListening(); 
+        loadAudio("java_project.mp3");
         
         wf = new WaveForm(this);
         abv = new AudioBandsVisual(this);
